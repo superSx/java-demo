@@ -1,0 +1,26 @@
+问题描述：给定一个数组，找到数量大于n/2的值
+解法：
+初始化一个result为nums[0]，用一个count来表示这个值的数量，初始化为1。
+从1开始遍历数组，当result==nums[i]时，计数器+1，当不等时 计数器减一，当计数器为0时，证明当前值到目前为止不是，重新赋值并开始计数。
+当最后count数值为大于1的数时，则当前result为所求值。（当然，前提是数组内有这个值）
+
+
+public int majorityElement(int[] nums) {
+		if (nums==null) {
+			return 0;
+		}
+		int result=nums[0],count=1;
+		for(int i=1;i<nums.length;i++){
+			if (result==nums[i]) {
+				count++;
+			}else{
+				count--;
+				if (count==0) {
+					result=nums[i];
+					count=1;
+				}
+			}
+		}
+		return result;
+	        
+	}
