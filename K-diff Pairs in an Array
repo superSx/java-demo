@@ -1,0 +1,71 @@
+K-diff Pairs in an Array
+
+
+问题描述
+Given an array of integers and an integer k, you need to find the number of unique k-diff pairs in the array. Here a k-diff pair is defined as an integer pair (i, j), 
+where i and j are both numbers in the array and their absolute difference is k.
+给定一个数组找到相差为k的二元组的对数。
+
+
+解法一：使用一个哈希表，key为数组中的每一个值，value是key的计数。。遍历这个哈希表，若
+k=0，则对数即为value值大于二的个数，k不为0时，则对于当前key，当（key+k）存在时，计数器加一。最终计数器的值为所得。
+public int findPairs(int[] nums, int k) {
+        if(nums==null||nums.length==0||nums.length==1||k<0){
+            return 0;
+        }
+        int count=0;
+        Map<Integer,Integer> map=new HashMap<>();
+        for(int i=0;i<nums.length;i++){
+            if(map.get(nums[i])==null){
+                map.put(nums[i],1);
+            }else{
+                map.put(nums[i],map.get(nums[i])+1);
+            }
+        }
+        for(int key:map.keySet()){
+            if(k==0){
+                if(map.get(key)>=2){
+                    count++;
+                }
+            }else{
+                if(map.get(k+key)!=null){
+                    count++;
+                }
+            }
+        }
+        
+        return count;
+ }
+ 
+ 
+ 解法二：
+ 将数组从小到大排序。
+ 从左到右遍历数组，（i=0;i<length;i++），nums[i]==nums[i-1]时不重复计数
+ 当前值每遇到相差为k的数，则计数器加一(j=i+1;j<length;j++)
+ public int findPairs(int[] nums, int k) {
+        if(nums==null||nums.length==0||nums.length==1){
+            return 0;
+        }
+        int cur=nums[0];
+        int count=0;
+        Arrays.sort(nums);
+        for(int i=0;i<nums.length;i++){
+            if(i!=0&&nums[i]==nums[i-1]){
+                continue;
+            }else{
+                for(int j=i+1;j<nums.length&&(nums[j]<=nums[i]+k);j++){
+                    if(nums[j]-nums[i]==k){
+                        count++;
+                        break;
+                    }
+                }
+            }
+        }
+        return count;
+    }
+ 
+ 
+ 
+ 
+ 
+ 
