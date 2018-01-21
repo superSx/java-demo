@@ -1,0 +1,62 @@
+修改最短长度的子串，使数组为递增数组。
+
+
+
+解法1
+O(n^2)
+class Solution {
+    public int findUnsortedSubarray(int[] nums) {
+        if(nums==null||nums.length==0||nums.length==0) return 0;
+        int start=0,end=nums.length-1;
+        boolean flag1=false;
+        boolean flag2=false;
+        for(int i=0;i<nums.length;i++){
+            if(!isMin(nums[i],nums,i,end)){
+                start=i;
+                flag1=true;
+                break;
+            }
+        }
+        for(int i=end;i>=start;i--){
+            if(!isMax(nums[i],nums,0,i)){
+                end=i;
+                flag1=true;
+                break;
+            }
+        }
+        if(!flag1&&!flag2) return 0;
+        return end-start==0?0:end-start+1;
+    }
+    public boolean isMax(int val,int[] nums,int start,int end){
+        
+        for(int i=end;i>=start;i--){
+            if(val<nums[i]){
+                return false;
+            }
+        }
+        return true;
+    }
+    public boolean isMin(int val,int[] nums,int start,int end){
+        for(int i=start;i<nums.length;i++){
+            if(val>nums[i]){
+                return false;
+            }
+        }
+        return true;
+    }
+}
+
+
+
+解法2
+O（n）
+public int findUnsortedSubarray(int[] A) {
+    int n = A.length, beg = -1, end = -2, min = A[n-1], max = A[0];
+    for (int i=1;i<n;i++) {
+      max = Math.max(max, A[i]);
+      min = Math.min(min, A[n-1-i]);
+      if (A[i] < max) end = i;
+      if (A[n-1-i] > min) beg = n-1-i; 
+    }
+    return end - beg + 1;
+}
