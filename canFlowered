@@ -1,0 +1,34 @@
+给定一个数组表示花槽，一个数字表示需要栽种花的数量，判断是否可以栽种花，两朵花不能相邻。
+
+
+解体思路。
+从前往后遍历，当可以栽种的时候则栽种，当前花数量减一，直到最后。
+当手上没有花时，则表示可以栽种，当手上有花，表示不能栽种。
+
+    public boolean canPlaceFlowers(int[] flowerbed, int n) {
+        if (n<=0) return true;
+        if (flowerbed==null||flowerbed.length==0||n>flowerbed.length) {
+			return false;
+		}
+        if(flowerbed.length==1){
+            if(flowerbed[0]==0) return true;
+            return false;
+        }
+		for(int i=0;i<flowerbed.length;i++){
+			if(i-1>=0&&i+1<flowerbed.length&&flowerbed[i-1]==0&&flowerbed[i]==0&&flowerbed[i+1]==0){
+				flowerbed[i]=1;
+				n-=1;
+			}
+			if(i==0&&flowerbed[i]==0&&flowerbed[i+1]==0){
+				flowerbed[i]=1;
+				n-=1;
+			}
+			if(i==flowerbed.length-1&&flowerbed[i]==0&&flowerbed[i-1]==0){
+				flowerbed[i]=1;
+				n-=1;
+			}
+		}
+		if(n>0) return false;
+		else return true;
+        
+    }
