@@ -1,0 +1,22 @@
+//规律
+    //如果mid<end,则后半部分是递增的 ，保留start->mid
+    //如果mid>end,则前半部分是递增的 ，选取后半部分，即mid+1->end;
+    //如果mid==end，则后半部分是有可能重复的，去除这个end
+    public int minNumberInRotateArray(int [] array) {
+        
+    	if(array==null||array.length==0){
+            return 0;
+        }
+        int len=array.length,start=0,end=len-1,mid=0;
+        while(start<end){
+            mid=(start+end)/2;
+            if(array[mid] > array[end]){//{4,5,6,7,8(mid),9,1,2,3}
+                start = mid + 1;
+            }else if(array[mid] == array[end]){//{4,5,6,1,1,2,2,2,2,2,2,2}
+                end = end - 1;
+            }else{//{4,5,6,1,2,3,4}
+                end = mid;
+            }   
+        }
+        return array[start];
+    }
