@@ -7,3 +7,14 @@ int count = 0;
             }
              
             return count;
+            链接：https://www.nowcoder.net/questionTerminal/8ee967e43c2c4ec193b040ea7fbb10b8
+来源：牛客网
+
+public int NumberOf1(int n) {
+        int sum=0;
+        while(n!=0){
+            sum+=n&1;//逐个判断低位是否为1；
+            n=n>>>1;//无符号右移，例如从11101变成1110
+        }
+        return sum;
+    }
