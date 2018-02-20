@@ -1,3 +1,5 @@
+根据中序遍历的顺序，对于任一结点，优先访问其左孩子，而左孩子结点又可以看做一根结点，然后继续访问其左孩子结点，
+直到遇到左孩子结点为空的结点才进行访问，然后按相同的规则访问其右子树。因此其处理过程如下：
 class Solution {
     public List<Integer> inorderTraversal(TreeNode root) {
         Stack<TreeNode> stack=new Stack<>();
@@ -15,3 +17,59 @@ class Solution {
         
     }
 }
+前序遍历
+根据前序遍历访问的顺序，优先访问根结点，然后再分别访问左孩子和右孩子。即对于任一结点，其可看做是根结点，因此可以直接访问，
+访问完之后，若其左孩子不为空，按相同规则访问它的左子树；当访问其左子树时，再访问它的右子树。因此其处理过程如下：
+　　对于任一结点P：
+     1)访问结点P，并将结点P入栈;
+     2)判断结点P的左孩子是否为空，若为空，则取栈顶结点并进行出栈操作，
+     并将栈顶结点的右孩子置为当前的结点P，循环至1);若不为空，则将P的左孩子置为当前的结点P;
+     3)直到P为NULL并且栈为空，则遍历结束。
+void preOrder2(BinTree *root)     //非递归前序遍历 
+ 2 {
+ 3     stack<BinTree*> s;
+ 4     BinTree *p=root;
+ 5     while(p!=NULL||!s.empty())
+ 6     {
+ 7         while(p!=NULL)
+ 8         {
+ 9             cout<<p->data<<" ";
+10             s.push(p);
+11             p=p->lchild;
+12         }
+13         if(!s.empty())
+14         {
+15             p=s.top();
+16             s.pop();
+17             p=p->rchild;
+18         }
+19     }
+20 }
+前序遍历和中序遍历，入栈顺序一致。
+
+
+void postOrder3(BinTree *root)     //非递归后序遍历
+ 2 {
+ 3     stack<BinTree*> s;
+ 4     BinTree *cur;                      //当前结点 
+ 5     BinTree *pre=NULL;                 //前一次访问的结点 
+ 6     s.push(root);
+ 7     while(!s.empty())
+ 8     {
+ 9         cur=s.top();
+10         if((cur->lchild==NULL&&cur->rchild==NULL)||
+11            (pre!=NULL&&(pre==cur->lchild||pre==cur->rchild)))
+12         {
+13             cout<<cur->data<<" ";  //如果当前结点没有孩子结点或者孩子节点都已被访问过 
+14               s.pop();
+15             pre=cur; 
+16         }
+17         else
+18         {
+19             if(cur->rchild!=NULL)
+20                 s.push(cur->rchild);
+21             if(cur->lchild!=NULL)    
+22                 s.push(cur->lchild);
+23         }
+24     }    
+25 }
